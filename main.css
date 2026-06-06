@@ -6,19 +6,89 @@
 }
 
 body {
-    background-color: #0091ff;
-
+	background-color: #0091ff;
+	min-height: 100vh;
 }
 
 .content {
 	padding: 2rem;
 	padding-right: 3rem;
+	width: 100%;
+	max-width: 100%;
 }
 
 .info {
 	background-color: #fff;
 	padding: 1rem;
 	border-radius: 1.5rem;
+	width: 100%;
+	padding-right: 5rem;
+	min-width: 0;
+	margin-bottom: 1.5rem;
+}
+
+.portals-nav {
+	margin: 0;
+	background-color: #FFF;
+	border-radius: 1.5rem;
+	padding: 0.75rem 1rem 1rem;
+}
+
+.portals-nav h3 {
+	color: #000;
+	font-size: 1.1rem;
+	padding: 0.75rem 1rem 0.5rem;
+	margin: 0;
+}
+
+.portals-nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.portals-nav li {
+	margin: 0;
+}
+
+.portals-nav a {
+	display: block;
+	padding: 0.9rem 1rem;
+	color: #fff;
+	text-decoration: none;
+	transition: 0.2s linear;
+}
+
+.portals-nav a:hover,
+.portals-nav a:focus {
+	color: #000;
+	background-color: #fff;
+	border-right: 5px solid #000;
+}
+
+.portals ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: 0.75rem;
+}
+
+.portals li {
+	background: #fff;
+	border: 1px solid #dbefff;
+	border-radius: 1rem;
+	padding: 0.8rem 1rem;
+}
+
+.portals a {
+	color: #0f4e8c;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.portals a:hover {
+	text-decoration: underline;
 }
 
 .app {
@@ -340,39 +410,100 @@ body {
 	margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
-	.drag-drop-grid {
-		grid-template-columns: 1fr;
-	}
-}
-
 @media (max-width: 1024px) {
 	.sidebar {
-		flex: 0 0 200px;
-		width: 200px;
-		min-width: 200px;
-		max-width: 200px;
+		flex: 0 0 220px;
+		width: 220px;
+		min-width: 220px;
+		max-width: 220px;
 	}
 }
 
 @media (max-width: 768px) {
+	.app {
+		flex-direction: column;
+	}
+
 	.menu-toggle {
 		display: block;
+		top: 1rem;
+		right: 1rem;
+		width: 52px;
+		height: 52px;
 	}
+
 	.content {
-		padding-top: 8rem;
+		padding: 1.25rem;
+		padding-top: 7rem;
 	}
+
 	.sidebar {
 		position: fixed;
 		top: 0;
-		left: -300px;
+		left: -100%;
 		height: 100vh;
 		width: 100%;
-		max-width: 300px;
-		transition: 0.2s linear;
+		max-width: 100%;
+		padding-top: 5rem;
+		transition: left 0.2s linear;
+		overflow-y: auto;
+		z-index: 20;
 	}
 
 	.sidebar.is-active {
 		left: 0;
+	}
+
+	.sidebar .todolist {
+		max-height: calc(100vh - 7rem);
+	}
+
+	.sidebar .menu {
+		margin: 0;
+	}
+
+	.info {
+		padding-right: 1rem;
+	}
+
+	.drag-drop {
+		padding: 1rem;
+	}
+
+	.drag-drop-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.content h1 {
+		font-size: 2rem;
+	}
+
+	.content h2,
+	.drag-column h3 {
+		font-size: 1.1rem;
+	}
+
+	#note-area {
+		min-height: 140px;
+	}
+}
+
+@media (max-width: 480px) {
+	.content {
+		padding: 1rem;
+		padding-top: 6.5rem;
+	}
+
+	.menu-toggle {
+		width: 48px;
+		height: 48px;
+	}
+
+	.sidebar {
+		padding: 1.5rem;
+	}
+
+	.info {
+		padding-right: 0.75rem;
 	}
 }
