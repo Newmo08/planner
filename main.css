@@ -42,6 +42,7 @@ body {
 	border-radius: 99px;
 	background-color: #000;
 	cursor: pointer;
+	z-index: 999;
 }
 
 .hamburger {
