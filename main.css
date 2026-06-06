@@ -6,7 +6,19 @@
 }
 
 body {
-    background-color: #7d7c7c;
+    background-color: #0091ff;
+
+}
+
+.content {
+	padding: 2rem;
+	padding-right: 10rem;
+}
+
+.info {
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 1.5rem;
 }
 
 .app {
@@ -67,10 +79,12 @@ body {
 }
 
 .sidebar {
-	flex: 1 1 0;
+	flex: 0 0 300px;
+	width: 300px;
+	min-width: 300px;
 	max-width: 300px;
 	padding: 2rem 1rem;
-	background-color: #333339;
+	background-color: #227dc2;
 }
 
 .sidebar h2 {
@@ -81,9 +95,12 @@ body {
 }
 
 .sidebar .todolist {
+	display: flex;
+	flex-direction: column;
 	background-color: #FFF;
 	padding: 1rem;
 	border-radius: 1.5rem;
+	max-height: calc(100vh - 8rem);
 }
 
 .sidebar .todolist form {
@@ -91,6 +108,14 @@ body {
 	flex-wrap: wrap;
 	gap: 0.5rem;
 	margin-top: 0.75rem;
+}
+
+.sidebar .todolist .todo-items {
+	list-style: none;
+	margin-top: 1rem;
+	overflow-y: auto;
+	max-height: 8rem;
+	padding-right: 0.4rem;
 }
 
 .sidebar .todolist input {
@@ -179,9 +204,25 @@ body {
 	padding: 1rem;
 }
 
-.content {
-	flex: 1 1 0;
-	padding: 2rem;
+.info {
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 1.5rem;
+	width: 100%;
+	padding-right: 5rem;
+	min-width: 0;
+}
+
+.drag-drop-grid,
+.drag-column,
+.drop-zone,
+.draggable {
+	min-width: 0;
+}
+
+.file-name {
+	overflow-wrap: anywhere;
+	word-break: break-word;
 }
 
 .topbar {
@@ -190,29 +231,126 @@ body {
 	align-items: center;
 	gap: 1rem;
 	padding: 1rem 2rem;
-	background-color: #333339;
-	border-bottom: 1px solid #333;
+	background-color: #227dc2;
 	color: #FFF;
 }
 
 .content h1 {
-	color: #FFF;
+	color: #000;
 	font-size: 2.5rem;
 	margin-bottom: 1rem;
 }
 
 .content h2 {
-    color: #FFF;
+    color: #000;
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
 }
 
 .content p {
-	color: #FFF;
+	color: #000;
+}
+
+.drag-drop {
+	margin-top: 2rem;
+	background: #fff;
+	padding: 1.5rem;
+	border-radius: 1.5rem;
+}
+
+.drag-drop h2 {
+	margin-bottom: 1rem;
+	color: #000;
+}
+
+.drag-drop-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.drag-column {
+	background: #f9fbff;
+	padding: 1rem;
+	border-radius: 1rem;
+	min-height: 260px;
+	display: flex;
+	flex-direction: column;
+}
+
+.drag-column h3 {
+	margin-bottom: 0.75rem;
+	font-size: 1rem;
+	color: #333;
+}
+
+.drop-zone {
+	min-height: 240px;
+	min-width: 385px;
+	background: #eef6ff;
+	border: 2px dashed rgba(0, 0, 0, 0.15);
+	border-radius: 1rem;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	justify-content: flex-start;
+	box-sizing: border-box;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.drop-zone.over {
+	background: #d2e8ff;
+	border-color: #227dc2;
+}
+
+.draggable {
+	user-select: none;
+	padding: 0.8rem 1rem;
+	margin-bottom: 0.75rem;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 12px;
+	cursor: grab;
+}
+
+.draggable.file-card {
+	background: #f3f8ff;
+	border-color: #227dc2;
+}
+
+.draggable:active {
+	cursor: grabbing;
+}
+
+.drag-drop-note {
+	color: #666;
+	font-size: 0.95rem;
+}
+
+#note-area {
+	width: 100%;
+	min-height: 180px;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 1rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	resize: vertical;
+	margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+	.drag-drop-grid {
+		grid-template-columns: 1fr;
+	}
 }
 
 @media (max-width: 1024px) {
 	.sidebar {
+		flex: 0 0 200px;
+		width: 200px;
+		min-width: 200px;
 		max-width: 200px;
 	}
 }
