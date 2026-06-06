@@ -12,7 +12,7 @@ body {
 
 .content {
 	padding: 2rem;
-	padding-right: 10rem;
+	padding-right: 3rem;
 }
 
 .info {
@@ -286,7 +286,7 @@ body {
 
 .drop-zone {
 	min-height: 240px;
-	min-width: 385px;
+	width: 100%;
 	background: #eef6ff;
 	border: 2px dashed rgba(0, 0, 0, 0.15);
 	border-radius: 1rem;
