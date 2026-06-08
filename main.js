@@ -59,16 +59,32 @@ const saveResources = resources => {
 
 const createFileCard = (file, zone) => {
 	const fileCard = document.createElement('div');
-	fileCard.className = 'draggable file-card';
+	const isFavorite = !!file.favorite;
+	fileCard.className = `draggable file-card${isFavorite ? ' favorite' : ''}`;
 	fileCard.draggable = true;
 	fileCard.id = file.id || `file-card-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 	fileCard.innerHTML = `
+		<button type="button" class="file-favorite" aria-pressed="${isFavorite}" title="Toggle favorite">
+			${isFavorite ? '★' : '☆'}
+		</button>
 		<span class="file-name">${file.name}</span>
 		<button type="button" class="file-remove" aria-label="Remove file">×</button>
 	`;
 
 	zone.appendChild(fileCard);
 	makeDraggable(fileCard);
+
+	fileCard.querySelector('.file-favorite').addEventListener('click', event => {
+		event.stopPropagation();
+		const zoneKey = zone.dataset.zone || 'default';
+		const resources = loadResources();
+		resources[zoneKey] = resources[zoneKey] || [];
+		const fileIndex = resources[zoneKey].findIndex(saved => saved.id === fileCard.id);
+		if (fileIndex === -1) return;
+		resources[zoneKey][fileIndex].favorite = !resources[zoneKey][fileIndex].favorite;
+		saveResources(resources);
+		renderResources();
+	});
 
 	fileCard.querySelector('.file-remove').addEventListener('click', event => {
 		event.stopPropagation();
@@ -93,11 +109,16 @@ const renderResources = () => {
 
 	zones.forEach(zone => {
 		const zoneKey = zone.dataset.zone || 'default';
-		const files = resources[zoneKey] || [];
-		if (!files.length) return;
+		const files = (resources[zoneKey] || []).slice().sort((a, b) => Number(b.favorite) - Number(a.favorite));
+		zone.innerHTML = '';
 
-		const placeholder = zone.querySelector('.drag-drop-note');
-		if (placeholder) placeholder.remove();
+		if (!files.length) {
+			const placeholder = document.createElement('p');
+			placeholder.className = 'drag-drop-note';
+			placeholder.textContent = 'Drag files from your desktop into this area.';
+			zone.appendChild(placeholder);
+			return;
+		}
 
 		files.forEach(file => createFileCard(file, zone));
 	});
@@ -138,6 +159,97 @@ if (noteArea) {
 		localStorage.setItem(getNoteStorageKey(), noteArea.value);
 	});
 }
+
+/* Planner: tasks and daily notes */
+(() => {
+	const PLANNER_TASKS_PREFIX = 'planner-tasks-';
+	const PLANNER_NOTES_PREFIX = 'planner-notes-';
+	const plannerDate = document.getElementById('planner-date');
+	const taskForm = document.getElementById('planner-task-form');
+	const taskInput = document.getElementById('planner-task-input');
+	const taskList = document.getElementById('planner-task-list');
+	const plannerNote = document.getElementById('planner-note');
+
+	if (!plannerDate) return;
+
+	const formatDate = d => new Date(d).toISOString().split('T')[0];
+	const today = new Date();
+	if (!plannerDate.value) plannerDate.value = formatDate(today);
+
+	const getTasksKey = date => PLANNER_TASKS_PREFIX + date;
+	const getNotesKey = date => PLANNER_NOTES_PREFIX + date;
+
+	const loadPlanner = () => {
+		const date = plannerDate.value;
+		const tasks = JSON.parse(localStorage.getItem(getTasksKey(date)) || '[]');
+		if (taskList) {
+			taskList.innerHTML = '';
+			tasks.forEach((task, idx) => {
+				const item = document.createElement('li');
+				item.className = 'todo-item' + (task.done ? ' done' : '');
+				item.innerHTML = `\n\t\t\t\t\t<span class="todo-text">${escapeHtml(task.text)}</span>\n\t\t\t\t\t<button type="button" class="todo-remove" aria-label="Remove">×</button>`;
+				item.querySelector('.todo-text').addEventListener('click', () => {
+					tasks[idx].done = !tasks[idx].done;
+					localStorage.setItem(getTasksKey(date), JSON.stringify(tasks));
+					loadPlanner();
+				});
+				item.querySelector('.todo-remove').addEventListener('click', () => {
+					tasks.splice(idx, 1);
+					localStorage.setItem(getTasksKey(date), JSON.stringify(tasks));
+					loadPlanner();
+				});
+				taskList.appendChild(item);
+			});
+		}
+		if (plannerNote) {
+			plannerNote.value = localStorage.getItem(getNotesKey(date)) || '';
+		}
+	};
+
+	const escapeHtml = str => String(str)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;');
+
+	plannerDate.addEventListener('change', loadPlanner);
+	const prevBtn = document.getElementById('prev-day');
+	const nextBtn = document.getElementById('next-day');
+	if (prevBtn) prevBtn.addEventListener('click', () => {
+		const d = new Date(plannerDate.value); d.setDate(d.getDate() - 1);
+		plannerDate.value = formatDate(d);
+		loadPlanner();
+	});
+	if (nextBtn) nextBtn.addEventListener('click', () => {
+		const d = new Date(plannerDate.value); d.setDate(d.getDate() + 1);
+		plannerDate.value = formatDate(d);
+		loadPlanner();
+	});
+
+	if (taskForm && taskInput) {
+		taskForm.addEventListener('submit', e => {
+			e.preventDefault();
+			const text = taskInput.value.trim();
+			if (!text) return;
+			const date = plannerDate.value;
+			const key = getTasksKey(date);
+			const tasks = JSON.parse(localStorage.getItem(key) || '[]');
+			tasks.push({ text, done: false });
+			localStorage.setItem(key, JSON.stringify(tasks));
+			taskInput.value = '';
+			loadPlanner();
+		});
+	}
+
+	if (plannerNote) {
+		plannerNote.addEventListener('input', () => {
+			localStorage.setItem(getNotesKey(plannerDate.value), plannerNote.value);
+		});
+	}
+
+	loadPlanner();
+})();
 
 if (todoForm && todoInput && todoList) {
 	let todos = loadTodos();
@@ -205,6 +317,7 @@ const setupDragAndDrop = () => {
 					const fileItem = {
 						id: `file-card-${Date.now()}-${Math.random().toString(16).slice(2)}`,
 						name: file.name,
+						favorite: false,
 					};
 					resources[zoneKey].push(fileItem);
 					createFileCard(fileItem, zone);
@@ -227,3 +340,42 @@ const setupDragAndDrop = () => {
 
 renderResources();
 setupDragAndDrop();
+
+// Math resources: clear/export controls (if present on the page)
+(() => {
+	const clearBtn = document.getElementById('clear-resources');
+	const exportBtn = document.getElementById('export-resources');
+	const zoneKey = getResourceStorageKey();
+
+	if (clearBtn) {
+		clearBtn.addEventListener('click', () => {
+			try {
+				const key = getResourceStorageKey();
+				localStorage.removeItem(key);
+				const zones = document.querySelectorAll('.drop-zone');
+				zones.forEach(z => {
+					z.innerHTML = '<p class="drag-drop-note">Drag files from your desktop into this area.</p>';
+				});
+				alert('All saved resources removed for this page.');
+			} catch (err) {
+				console.error(err);
+			}
+		});
+	}
+
+	if (exportBtn) {
+		exportBtn.addEventListener('click', () => {
+			const key = getResourceStorageKey();
+			const resources = JSON.parse(localStorage.getItem(key) || '{}');
+			const blob = new Blob([JSON.stringify(resources, null, 2)], { type: 'application/json' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${location.pathname.split('/').pop().replace('.html','')}-resources.json`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+			URL.revokeObjectURL(url);
+		});
+	}
+})();

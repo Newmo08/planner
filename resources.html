@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PLanner - Resources</title>
+	<link rel="stylesheet" href="main.css" />
+</head>
+<header class="topbar">
+		
+</header>
+<body>
+	
+	<div class="app">
+		<div class="menu-toggle">
+			<div class="hamburger">
+				<span></span>
+			</div>
+		</div>
+
+		<aside class="sidebar">
+			<h2>Menu</h2>
+
+			<nav class="todolist">
+				<p>My To-Do List</p>
+				<form id="todo-form" class="todolist-form">
+					<input id="todo-input" type="text" placeholder="Add a new task" autocomplete="off" />
+					<button type="submit">Add</button>
+				</form>
+				<ul id="todo-list" class="todo-items"></ul>
+			</nav>
+
+			<nav class="menu">
+				<a href="index.html" class="menu-item">Dashboard</a>
+				<a href="resources.html" class="menu-item is-active">Resources</a>
+			</nav>
+
+		</aside>
+
+			<main class="content">
+				<h1>Resources</h1>
+				<nav class="info">
+					<p>
+					    Drop documents here to keep track 
+						of them. Files are saved locally in your browser.
+					</p>
+				</nav>
+				<section class="drag-drop">
+					<div class="resource-actions">
+						<button id="clear-resources">Clear saved resources</button>
+					</div>
+					<div class="drag-drop-grid">
+						<div class="drag-column">
+							<h3>Drop files here</h3>
+							<div class="drop-zone" data-zone="math-resources">
+								<p class="drag-drop-note">Drag files from your desktop into this area.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+
+	</div>
+
+	<script src="main.js"></script>
+</body>
+</html>

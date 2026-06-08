@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>StudySite - Dashboard</title>
+	<title>Planner - Calender</title>
 	<link rel="stylesheet" href="main.css" />
 </head>
 <header class="topbar">
@@ -33,24 +33,34 @@
 			
 			<nav class="menu">
 				<a href="index.html" class="menu-item is-active">Dashboard</a>
-				<a href="math.html" class="menu-item">Math</a>
-				<a href="english.html" class="menu-item">English</a>
-				<a href="science.html" class="menu-item">Science</a>
-				<a href="humanities.html" class="menu-item">Humanities</a>
+				<a href="resources.html" class="menu-item">Resources</a>
 			</nav>
 
 		</aside>
 
 		<main class="content">
-			<h1>Dashboard</h1>
-				<nav class="info">
-					<h2>Notes</h2>
-					<p>
-						Welcome to StudySite<br>
-						Here you can find all your notes, to-do lists, and study materials in one place.<br>
-						Use the menu on the left to navigate through different subjects and access your resources.
-					</p>
-				</nav>
+			<h1>Calendar</h1>
+			<section class="planner">
+				<div class="planner-controls">
+					<button id="prev-day" aria-label="Previous day">‹</button>
+					<input type="date" id="planner-date" />
+					<button id="next-day" aria-label="Next day">›</button>
+				</div>
+				<div class="planner-columns">
+					<div class="planner-tasks">
+						<h2>Tasks</h2>
+						<form id="planner-task-form">
+							<input id="planner-task-input" type="text" placeholder="Add a task" autocomplete="off" />
+							<button type="submit">Add</button>
+						</form>
+						<ul id="planner-task-list" class="todo-items"></ul>
+					</div>
+					<div class="planner-notes">
+						<h2>Notes</h2>
+						<textarea id="planner-note" placeholder="Daily notes"></textarea>
+					</div>
+				</div>
+			</section>
 		</main>
 	</div>
 
