@@ -153,6 +153,9 @@ body {
 .sidebar .todolist .todo-items {
 	list-style: none;
 	margin-top: 1rem;
+	overflow-y: auto;
+	max-height: 8rem;
+	padding-right: 0.4rem;
 }
 
 .sidebar .todolist .todo-item {
@@ -173,6 +176,8 @@ body {
 .sidebar .todolist .todo-text {
 	cursor: pointer;
 	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 .sidebar .todolist .todo-remove {
@@ -182,6 +187,8 @@ body {
 	font-size: 1.25rem;
 	line-height: 1;
 	cursor: pointer;
+	margin-left: 0.75rem;
+	flex: 0 0 auto;
 }
 
 .sidebar .menu {
@@ -227,6 +234,13 @@ body {
 .file-name {
 	overflow-wrap: anywhere;
 	word-break: break-word;
+}
+
+/* Remove default list bullets for app lists */
+.todo-items {
+	list-style: none;
+	padding-left: 0;
+	margin-left: 0;
 }
 
 .topbar {
@@ -539,6 +553,8 @@ body {
 	display: grid;
 	grid-template-columns: 1fr 320px;
 	gap: 1rem;
+    list-style: none;
+	list-style-type: none;
 }
 
 .planner-tasks h2,
@@ -549,6 +565,40 @@ body {
 	display: flex;
 	gap: 0.5rem;
 	margin-bottom: 0.75rem;
+}
+
+/* Planner task list styling — match sidebar todo layout */
+.planner-tasks .todo-items {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-left: 0;
+	margin: 0;
+	max-height: 240px;
+	overflow-y: auto;
+}
+
+.planner-tasks .todo-item {
+	display: flex;
+	align-items: flex-start;
+	padding: 0.6rem 0.8rem;
+	background: #f8f9fb;
+	border-radius: 8px;
+	width: 100%;
+}
+
+.planner-tasks .todo-text {
+	flex: 1 1 auto;
+	min-width: 0;
+	white-space: normal;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+.planner-tasks .todo-remove {
+	margin-left: 0.75rem;
+	flex: 0 0 auto;
 }
 .planner-tasks input[type="text"] {
 	flex: 1;
