@@ -17,14 +17,83 @@ body {
 	max-width: 100%;
 }
 
-.info {
+.dashboard-grid {
+	display: flex;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+}
+
+.focus-timer,
+.reminder {
 	background-color: #fff;
-	padding: 1rem;
+	padding: 1.5rem;
 	border-radius: 1.5rem;
-	width: 100%;
-	padding-right: 5rem;
-	min-width: 0;
-	margin-bottom: 1.5rem;
+	box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+	flex: 1 1 320px;
+	min-width: 280px;
+}
+
+.focus-timer {
+	max-width: none;
+}
+
+.timer-card {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.timer-display {
+	font-size: 3rem;
+	font-weight: 700;
+	text-align: center;
+	color: #0078d4;
+}
+
+.timer-controls {
+	display: flex;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.timer-controls button {
+	flex: 1 1 90px;
+	min-width: 90px;
+	padding: 0.85rem 1rem;
+	border: none;
+	border-radius: 999px;
+	background-color: #227dc2;
+	color: #fff;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.timer-controls button:hover {
+	background-color: #185a8f;
+}
+
+.timer-settings {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.75rem;
+	font-size: 0.95rem;
+}
+
+.timer-settings input {
+	width: 5rem;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid #ccc;
+	border-radius: 0.85rem;
+	text-align: center;
+}
+
+@media (max-width: 900px) {
+	.dashboard-grid {
+		flex-direction: column;
+	}
 }
 
 .app {

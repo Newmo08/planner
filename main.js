@@ -399,6 +399,89 @@ setupDragAndDrop();
 	}
 })();
 
+(() => {
+	const timerDisplay = document.getElementById('timer-display');
+	const timerStart = document.getElementById('timer-start');
+	const timerPause = document.getElementById('timer-pause');
+	const timerReset = document.getElementById('timer-reset');
+	const timerMinutes = document.getElementById('timer-minutes');
+	const TIMER_STORAGE_KEY = 'focus-timer-duration';
+
+	if (!timerDisplay || !timerStart || !timerPause || !timerReset || !timerMinutes) {
+		return;
+	}
+
+	let intervalId = null;
+	let remainingSeconds = 25 * 60;
+
+	const formatTime = seconds => {
+		const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+		const secs = String(seconds % 60).padStart(2, '0');
+		return `${minutes}:${secs}`;
+	};
+
+	const updateDisplay = () => {
+		timerDisplay.textContent = formatTime(remainingSeconds);
+	};
+
+	const saveDuration = minutes => {
+		localStorage.setItem(TIMER_STORAGE_KEY, String(minutes));
+	};
+
+	const loadDuration = () => {
+		const saved = localStorage.getItem(TIMER_STORAGE_KEY);
+		const minutes = saved && !Number.isNaN(Number(saved)) ? Number(saved) : 25;
+		timerMinutes.value = Math.min(120, Math.max(1, minutes));
+		remainingSeconds = Number(timerMinutes.value) * 60;
+		updateDisplay();
+	};
+
+	const stopTimer = () => {
+		if (intervalId !== null) {
+			clearInterval(intervalId);
+			intervalId = null;
+		}
+	};
+
+	const resetTimer = () => {
+		stopTimer();
+		remainingSeconds = Number(timerMinutes.value) * 60;
+		updateDisplay();
+	};
+
+	timerStart.addEventListener('click', () => {
+		if (intervalId !== null) {
+			return;
+		}
+		intervalId = setInterval(() => {
+			if (remainingSeconds <= 0) {
+				stopTimer();
+				alert('Focus session complete! Take a break.');
+				return;
+			}
+			remainingSeconds -= 1;
+			updateDisplay();
+		}, 1000);
+	});
+
+	timerPause.addEventListener('click', () => {
+		stopTimer();
+	});
+
+	timerReset.addEventListener('click', () => {
+		resetTimer();
+	});
+
+	timerMinutes.addEventListener('change', () => {
+		const minutes = Math.max(1, Math.min(120, Number(timerMinutes.value) || 25));
+		timerMinutes.value = minutes;
+		saveDuration(minutes);
+		resetTimer();
+	});
+
+	loadDuration();
+})();
+
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', () => {
 		navigator.serviceWorker.register('./sw.js')
