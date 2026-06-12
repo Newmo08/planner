@@ -45,28 +45,38 @@
 
 		<main class="content">
 			<h1>Dashboard</h1>
-			<div class="dashboard-grid">
-				<section class="focus-timer">
-					<h2>Focus Timer</h2>
-					<div class="timer-card">
-						<div id="timer-display" class="timer-display">25:00</div>
-						<div class="timer-controls">
-							<button id="timer-start" type="button">Start</button>
-							<button id="timer-pause" type="button">Pause</button>
-							<button id="timer-reset" type="button">Reset</button>
-						</div>
-						<div class="timer-settings">
-							<label for="timer-minutes">Minutes</label>
-							<input id="timer-minutes" type="number" min="1" max="120" value="25" />
-						</div>
-					</div>
-				</section>
-				<section class="reminder">
-					<h2>Reminder</h2>
-					<div class="reminder-random">
-						<h3>Reminder</h3>
-					</div>
-				</section>
+			<div class="dashboard-tabs">
+				<div class="tab-buttons">
+					<button class="tab-button is-active" type="button" data-tab="overview-panel">Overview</button>
+					<button class="tab-button" type="button" data-tab="focus-panel">Focus Timer</button>
+				</div>
+				<div class="tab-panels">
+					<section class="tab-panel is-active" id="overview-panel">
+						<section class="reminder">
+							<h2>Reminder</h2>
+							<div class="reminder-random">
+								<h3>Reminder</h3>
+							</div>
+						</section>
+					</section>
+					<section class="tab-panel" id="focus-panel">
+						<section class="focus-timer">
+							<h2>Focus Timer</h2>
+							<div class="timer-card">
+								<div id="timer-display" class="timer-display">25:00</div>
+								<div class="timer-controls">
+									<button id="timer-start" type="button">Start</button>
+									<button id="timer-pause" type="button">Pause</button>
+									<button id="timer-reset" type="button">Reset</button>
+								</div>
+								<div class="timer-settings">
+									<label for="timer-minutes">Minutes</label>
+									<input id="timer-minutes" type="number" min="1" max="120" value="25" />
+								</div>
+							</div>
+						</section>
+					</section>
+				</div>
 			</div>
 		</main>
 	</div>

@@ -8,6 +8,23 @@ if (menuToggle && sidebar) {
 	});
 }
 
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+if (tabButtons.length && tabPanels.length) {
+	tabButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const targetId = button.dataset.tab;
+			if (!targetId) return;
+
+			tabButtons.forEach(btn => btn.classList.toggle('is-active', btn === button));
+			tabPanels.forEach(panel => {
+				panel.classList.toggle('is-active', panel.id === targetId);
+			});
+		});
+	});
+}
+
 // Daily health reminders
 (() => {
 	const weeklyReminders = [
